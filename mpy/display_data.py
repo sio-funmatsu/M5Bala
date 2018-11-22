@@ -56,7 +56,7 @@ def calibrate():
   gzo = tz / 2000
   imu.setGyroOffsets(gxo, gyo, gzo)
   
-calibrate()
+calibrateGyro()
 
 while True:
   labelx.setText(str(imu.ypr[1]))
