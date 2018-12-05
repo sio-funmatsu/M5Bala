@@ -60,11 +60,9 @@ void auto_tune_gyro_offset() {
 	delay(300);
 	M5.update();
 	M5.Lcd.println("Start IMU calculate gyro offsets");
-	if (m5bala.getIMU_ID() == m5bala.MPU9250_ID) {
-		M5.Lcd.println("DO NOT MOVE A MPU6050...");
-	} else {
-		M5.Lcd.println("DO NOT MOVE A MPU6050...");
-	}
+	M5.Lcd.print("DO NOT MOVE A ");
+	M5.Lcd.print(m5bala.getImuName());
+	M5.Lcd.println("...");
 	delay(2000);
 
 	m5bala.imu->calcGyroOffsets(true);
