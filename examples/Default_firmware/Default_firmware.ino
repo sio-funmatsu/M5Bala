@@ -1,6 +1,6 @@
 /********************************************************
  * M5Bala balance car Basic Example
- * Reading encoder and writting the motor via I2C
+ * Reading encoder and writing the motor via I2C
  ********************************************************/
 
 #include <M5Stack.h>
@@ -32,7 +32,7 @@ void LED_start() {
 
 // ================ Draw Angle Wavefrom =================
 void draw_waveform() {
-	#define MAX_LEN 120
+	#define MAX_LEN 320
 	#define X_OFFSET 0
 	#define Y_OFFSET 100
 	#define X_SCALE 3
@@ -60,7 +60,11 @@ void auto_tune_gyro_offset() {
 	delay(300);
 	M5.update();
 	M5.Lcd.println("Start IMU calculate gyro offsets");
-	M5.Lcd.println("DO NOT MOVE A MPU6050...");
+	if (m5bala.getIMU_ID() == m5bala.MPU9250_ID) {
+		M5.Lcd.println("DO NOT MOVE A MPU6050...");
+	} else {
+		M5.Lcd.println("DO NOT MOVE A MPU6050...");
+	}
 	delay(2000);
 
 	m5bala.imu->calcGyroOffsets(true);
@@ -97,7 +101,7 @@ void setup() {
 
 	// Display info
 	M5.Lcd.setTextFont(2);
-	M5.Lcd.setTextColor(WHITE, BLACK);
+	M5.Lcd.setTextColor(TFT_WHITE, TFT_BLACK);
 	M5.Lcd.println("M5Stack Balance Mode start");
 
 	// Init M5Bala
@@ -106,14 +110,20 @@ void setup() {
 	// Loading the IMU parameters
 	if (M5.BtnC.isPressed()) {
 		preferences.begin("m5bala-cfg", false);
+		preferences.putBool("have_cfg", true);
 		auto_tune_gyro_offset();
-
+		M5.Lcd.clear();
+		M5.Lcd.setCursor(0, 0);
+		M5.Lcd.println("M5Stack Balance Mode start");
 	} else {
 		preferences.begin("m5bala-cfg", true);
-		m5bala.imu->setGyroOffsets( preferences.getFloat("gyroXoffset"), 
-                                preferences.getFloat("gyroYoffset"), 
-                                preferences.getFloat("gyroZoffset"));
+		if (preferences.getBool("have_cfg")) {
+			m5bala.imu->setGyroOffsets( preferences.getFloat("gyroXoffset"), 
+										preferences.getFloat("gyroYoffset"), 
+										preferences.getFloat("gyroZoffset"));
+		}
 	}
+	preferences.end();
 }
 
 void loop() {

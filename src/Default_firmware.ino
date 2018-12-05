@@ -1,6 +1,6 @@
 /********************************************************
  * M5Bala balance car Basic Example
- * Reading encoder and writting the motor via I2C
+ * Reading encoder and writing the motor via I2C
  ********************************************************/
 
 #include <M5Stack.h>
@@ -32,7 +32,7 @@ void LED_start() {
 
 // ================ Draw Angle Wavefrom =================
 void draw_waveform() {
-	#define MAX_LEN 120
+	#define MAX_LEN 320
 	#define X_OFFSET 0
 	#define Y_OFFSET 100
 	#define X_SCALE 3
@@ -60,7 +60,9 @@ void auto_tune_gyro_offset() {
 	delay(300);
 	M5.update();
 	M5.Lcd.println("Start IMU calculate gyro offsets");
-	M5.Lcd.println("DO NOT MOVE A MPU6050...");
+	M5.Lcd.print("DO NOT MOVE A ");
+	M5.Lcd.print(m5bala.getImuName());
+	M5.Lcd.println("...");
 	delay(2000);
 
 	m5bala.imu->calcGyroOffsets(true);
@@ -86,7 +88,6 @@ void setup() {
 	// Power ON Stabilizing...
 	delay(500);
 	M5.begin();
-	M5.setPowerBoostKeepOn(false);
 
 	// Turn on LED BAR
 	LED_start();
@@ -109,7 +110,9 @@ void setup() {
 		preferences.begin("m5bala-cfg", false);
 		preferences.putBool("have_cfg", true);
 		auto_tune_gyro_offset();
-
+		M5.Lcd.clear();
+		M5.Lcd.setCursor(0, 0);
+		M5.Lcd.println("M5Stack Balance Mode start");
 	} else {
 		preferences.begin("m5bala-cfg", true);
 		if (preferences.getBool("have_cfg")) {

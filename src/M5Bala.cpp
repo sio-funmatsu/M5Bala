@@ -207,3 +207,13 @@ void M5Bala::rotate(int16_t speed, uint16_t duration) {
 		stop();
 	}
 }
+
+String M5Bala::getImuName() {
+	if (imu_id == MPU9250_ID) {
+		return "MPU9250";
+	} else if (imu_id == MPU6050_ID) {
+		return "MPU6050";
+	} else {
+		return "UNKNOWN IMU";
+	}
+}

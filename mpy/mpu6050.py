@@ -53,10 +53,10 @@ ACCEL_FS_SEL_4G = const(0b00001000)
 ACCEL_FS_SEL_8G = const(0b00010000)
 ACCEL_FS_SEL_16G = const(0b00011000)
 
-_ACCEL_SO_2G = 16384  # 1 / 16384 ie. 0.061 mg / digit
-_ACCEL_SO_4G = 8192  # 1 / 8192 ie. 0.122 mg / digit
-_ACCEL_SO_8G = 4096  # 1 / 4096 ie. 0.244 mg / digit
-_ACCEL_SO_16G = 2048  # 1 / 2048 ie. 0.488 mg / digit
+_ACCEL_SO_2G = 32768 / 2  # 1 / 16384 ie. 0.061 mg / digit
+_ACCEL_SO_4G = 32768 / 4  # 1 / 8192 ie. 0.122 mg / digit
+_ACCEL_SO_8G = 32768 / 8  # 1 / 4096 ie. 0.244 mg / digit
+_ACCEL_SO_16G = 32768 / 16  # 1 / 2048 ie. 0.488 mg / digit
 
 #_GYRO_FS_MASK = const(0b00011000)
 GYRO_FS_SEL_250DPS = const(0b00000000)
@@ -64,10 +64,10 @@ GYRO_FS_SEL_500DPS = const(0b00001000)
 GYRO_FS_SEL_1000DPS = const(0b00010000)
 GYRO_FS_SEL_2000DPS = const(0b00011000)
 
-_GYRO_SO_250DPS = 131
-_GYRO_SO_500DPS = _GYRO_SO_250DPS / 2
-_GYRO_SO_1000DPS = _GYRO_SO_250DPS / 4
-_GYRO_SO_2000DPS = _GYRO_SO_250DPS / 8
+_GYRO_SO_250DPS = 32768 / 250
+_GYRO_SO_500DPS = 32768 / 500
+_GYRO_SO_1000DPS = 32768 / 1000
+_GYRO_SO_2000DPS = 32768 / 2000
 
 # Used for enablind and disabling the i2c bypass access
 _I2C_BYPASS_MASK = const(0b00000010)
